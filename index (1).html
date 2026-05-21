@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balliq — Player Props Research</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c10;
+  --surface: #12151c;
+  --surface2: #1a1e28;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0f2f7;
+  --muted: #6b7385;
+  --accent: #c8f135;
+  --accent-dim: rgba(200,241,53,0.12);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,0.12);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
+  --amber: #fbbf24;
+  --amber-dim: rgba(251,191,36,0.12);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.1);
+  --orange: #fb923c;
+  --radius: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Barlow', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* HEADER */
+header { padding: 16px 28px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); background: var(--surface); flex-wrap: wrap; }
+.logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; color: var(--accent); letter-spacing: -0.5px; }
+.logo span { color: var(--text); }
+.updated-tag { font-size: 11px; color: var(--muted); margin-left: auto; }
+.header-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: var(--surface2); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
+
+/* LOADING / ERROR */
+.loader { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 14px; color: var(--muted); }
+.spinner { width: 36px; height: 36px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.error-box { background: var(--red-dim); border: 1px solid rgba(248,113,113,0.3); border-radius: var(--radius); padding: 20px 24px; color: var(--red); max-width: 500px; margin: 40px auto; text-align: center; }
+
+/* CONTAINER */
+.container { max-width: 1200px; margin: 0 auto; padding: 24px 28px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+/* GAME GRID */
+.game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 24px; }
+.game-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; }
+.game-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.15s; }
+.game-card:hover { border-color: var(--border2); background: var(--surface2); }
+.game-card.selected { border-color: var(--accent); background: rgba(200,241,53,0.04); }
+.game-card.selected::before { background: var(--accent); }
+.game-matchup { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.game-meta { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.game-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+.badge-NFL   { background: rgba(96,165,250,0.15); color: var(--blue); }
+.badge-NCAAF { background: rgba(200,241,53,0.12); color: var(--accent); }
+
+/* WEATHER STRIP */
+.weather-strip { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 16px; margin-bottom: 18px; display: flex; align-items: center; gap: 20px; font-size: 13px; color: var(--muted); }
+.wx-val { color: var(--text); font-weight: 600; margin-left: 4px; }
+.wx-warn { color: var(--amber); font-weight: 600; }
+
+/* INJURY BANNER */
+.injury-banner { background: var(--red-dim); border: 1px solid rgba(248,113,113,0.25); border-radius: 6px; padding: 7px 12px; font-size: 12px; color: var(--red); margin-bottom: 8px; }
+
+/* MAIN LAYOUT */
+.main-layout { display: grid; grid-template-columns: 250px 1fr; gap: 18px; }
+
+/* PLAYER PANEL */
+.player-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.panel-header { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.panel-title { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.filter-tabs { display: flex; gap: 2px; background: var(--bg); border-radius: 6px; padding: 2px; }
+.filter-tab { padding: 5px 9px; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); cursor: pointer; border-radius: 4px; transition: all 0.12s; border: none; background: transparent; }
+.filter-tab.active { background: var(--surface2); color: var(--text); }
+.player-list { overflow-y: auto; max-height: 560px; }
+.player-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; }
+.player-item:last-child { border-bottom: none; }
+.player-item:hover { background: var(--surface2); }
+.player-item.active { background: rgba(200,241,53,0.06); border-left: 2px solid var(--accent); padding-left: 12px; }
+.player-avatar { width: 34px; height: 34px; border-radius: 7px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 800; color: var(--muted); flex-shrink: 0; border: 1px solid var(--border); }
+.player-name { font-size: 13px; font-weight: 600; line-height: 1.2; }
+.player-sub  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.player-edge { margin-left: auto; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; }
+.edge-up  { color: var(--green); }
+.edge-dn  { color: var(--red); }
+.edge-neu { color: var(--amber); }
+.inj-dot  { width: 7px; height: 7px; border-radius: 50%; background: var(--red); display: inline-block; margin-left: 4px; vertical-align: middle; }
+
+/* PROPS PANEL */
+.props-panel { display: flex; flex-direction: column; gap: 14px; }
+.player-hero { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; display: flex; align-items: flex-start; gap: 18px; }
+.hero-avatar { width: 56px; height: 56px; border-radius: 11px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent); border: 1px solid var(--border2); flex-shrink: 0; }
+.hero-name { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: 0.02em; line-height: 1; }
+.hero-sub  { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.hero-stats { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
+.hs-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 2px; }
+.hs-val   { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; }
+
+/* PROP CARDS */
+.props-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+.prop-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px; position: relative; overflow: hidden; }
+.prop-card.value-bet { border-color: rgba(52,211,153,0.35); }
+.vb-tag { position: absolute; top: 10px; right: 10px; font-size: 9px; font-weight: 800; letter-spacing: 0.1em; color: var(--green); background: var(--green-dim); padding: 3px 7px; border-radius: 4px; }
+
+.prop-type { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.prop-line-area { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+.prop-line { font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 800; cursor: pointer; border-bottom: 1px dashed var(--muted); }
+.prop-line:hover { color: var(--accent); border-color: var(--accent); }
+.line-hint { font-size: 11px; color: var(--muted); }
+
+/* ODDS INPUT ROW */
+.odds-row { display: flex; gap: 6px; margin-bottom: 12px; align-items: center; }
+.odds-input-wrap { flex: 1; position: relative; }
+.odds-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+.odds-input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; padding: 6px 10px; font-size: 13px; font-weight: 600; color: var(--text); font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.03em; }
+.odds-input::placeholder { color: var(--muted); }
+.odds-input:focus { outline: none; border-color: var(--accent); }
+
+/* OVER/UNDER BUTTONS */
+.dir-row { display: flex; gap: 6px; margin-bottom: 12px; }
+.dir-btn { flex: 1; padding: 7px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.12s; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.04em; }
+.dir-btn.over.picked  { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.dir-btn.under.picked { background: var(--red-dim);   border-color: var(--red);   color: var(--red); }
+.dir-btn:hover:not(.picked) { border-color: var(--border2); color: var(--text); }
+
+/* TREND */
+.trend-label-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 5px; }
+.trend-label-row span:last-child { font-weight: 600; color: var(--text); }
+.trend-bars { display: flex; gap: 3px; align-items: flex-end; height: 38px; margin-bottom: 10px; }
+.trend-bar { flex: 1; border-radius: 2px 2px 0 0; min-height: 4px; position: relative; }
+.trend-bar.hit  { background: var(--green); }
+.trend-bar.miss { background: var(--surface2); border: 1px solid var(--border2); }
+.trend-bar .tip { display: none; position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); background: var(--surface2); border: 1px solid var(--border2); border-radius: 4px; padding: 2px 6px; font-size: 10px; white-space: nowrap; color: var(--text); z-index: 10; }
+.trend-bar:hover .tip { display: block; }
+
+/* MATCHUP */
+.matchup-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.matchup-label { font-size: 11px; color: var(--muted); flex: 1; }
+.dots { display: flex; gap: 3px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border2); }
+
+/* EDGE */
+.edge-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border); }
+.edge-val { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; }
+.ev-row   { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.ev-label { font-size: 11px; color: var(--muted); }
+.ev-val   { font-size: 12px; font-weight: 600; }
+.verdict-pill { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 5px 12px; border-radius: 6px; }
+.vp-bet   { background: var(--green-dim); color: var(--green); }
+.vp-pass  { background: var(--red-dim);   color: var(--red); }
+.vp-watch { background: var(--amber-dim); color: var(--amber); }
+
+/* EMPTY */
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; gap: 10px; color: var(--muted); text-align: center; }
+.empty-icon { font-size: 36px; opacity: 0.3; }
+.empty-text { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 600; }
+.empty-sub  { font-size: 13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">ball<span>iq</span></div>
+  <span class="header-tag">Props Research</span>
+  <span class="updated-tag" id="updatedTag">Loading…</span>
+</header>
+
+<!-- Loading state -->
+<div class="loader" id="loader">
+  <div class="spinner"></div>
+  <div style="font-size:13px;">Fetching latest data…</div>
+</div>
+
+<!-- Main app (hidden until data loads) -->
+<div class="container" id="app" style="display:none;">
+  <div class="section-label">Select a game</div>
+  <div class="game-grid" id="gameGrid"></div>
+
+  <div class="main-layout" id="mainLayout" style="display:none;">
+    <div class="player-panel">
+      <div class="panel-header">
+        <div class="panel-title">Players</div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterPos('ALL',this)">All</button>
+          <button class="filter-tab" onclick="filterPos('QB',this)">QB</button>
+          <button class="filter-tab" onclick="filterPos('WR',this)">WR</button>
+          <button class="filter-tab" onclick="filterPos('RB',this)">RB</button>
+          <button class="filter-tab" onclick="filterPos('TE',this)">TE</button>
+        </div>
+      </div>
+      <div class="player-list" id="playerList"></div>
+    </div>
+
+    <div class="props-panel" id="propsPanel">
+      <div class="empty-state">
+        <div class="empty-icon">👆</div>
+        <div class="empty-text">Choose a player</div>
+        <div class="empty-sub">Select from the list to see props, trends & edge</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── state ──────────────────────────────────────────────────────────────────
+let DATA        = null;
+let selGameIdx  = null;
+let selPlayerId = null;
+let posFilter   = 'ALL';
+// stores user-entered odds per player+prop: key = `${playerId}_${propIndex}`
+const userOdds  = {};
+
+// ── data load ──────────────────────────────────────────────────────────────
+async function loadData() {
+  try {
+    // cache-bust so GitHub Pages serves fresh data
+    const res = await fetch('data.json?v=' + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    DATA = await res.json();
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('app').style.display    = 'block';
+    const d = new Date(DATA.updated_at);
+    document.getElementById('updatedTag').textContent =
+      'Updated ' + d.toLocaleString('en-US', { month:'short', day:'numeric',
+        hour:'numeric', minute:'2-digit', hour12:true });
+    renderGames();
+  } catch(e) {
+    document.getElementById('loader').innerHTML =
+      `<div class="error-box">
+        <strong>Could not load data.json</strong><br><br>
+        Run the Python script first, or push data.json to your repo.<br><br>
+        <code style="font-size:11px;">${e.message}</code>
+       </div>`;
+  }
+}
+
+// ── helpers ────────────────────────────────────────────────────────────────
+function amOddsToProb(american) {
+  const n = parseFloat(american);
+  if (isNaN(n)) return null;
+  return n < 0 ? (-n / (-n + 100)) : (100 / (n + 100));
+}
+
+function computeEV(hitRate, overOdds) {
+  const prob = hitRate / 100;
+  const impliedProb = amOddsToProb(overOdds);
+  if (!impliedProb) return null;
+  const payout = overOdds > 0 ? overOdds / 100 : 100 / Math.abs(overOdds);
+  const ev = (prob * payout) - ((1 - prob) * 1);
+  return (ev * 100).toFixed(1);
+}
+
+function dotColor(rating) {
+  const colors = ['#f87171','#fb923c','#fbbf24','#34d399','#4ade80'];
+  return colors[Math.min(Math.max(rating - 1, 0), 4)];
+}
+
+function edgeColor(edge) {
+  return edge > 3 ? 'var(--green)' : edge > 0 ? 'var(--amber)' : 'var(--red)';
+}
+
+// ── render games ───────────────────────────────────────────────────────────
+function renderGames() {
+  const grid = document.getElementById('gameGrid');
+  grid.innerHTML = DATA.games.map((g, i) => `
+    <div class="game-card ${selGameIdx === i ? 'selected' : ''}" onclick="selectGame(${i})">
+      <div class="game-matchup">${g.away} @ ${g.home}</div>
+      <div class="game-meta">
+        <span class="game-badge badge-${g.league}">${g.league}</span>
+        ${g.date}
+        ${g.spread ? '· ' + g.spread : ''}
+      </div>
+    </div>`).join('');
+}
+
+// ── select game ────────────────────────────────────────────────────────────
+function selectGame(idx) {
+  selGameIdx  = idx;
+  selPlayerId = null;
+  renderGames();
+  document.getElementById('mainLayout').style.display = 'grid';
+  renderPlayerList();
+  document.getElementById('propsPanel').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">👆</div>
+      <div class="empty-text">Choose a player</div>
+      <div class="empty-sub">Select from the list to see props, trends & edge</div>
+    </div>`;
+
+  // weather strip
+  const g = DATA.games[idx];
+  const wx = g.weather;
+  let wxHtml = '';
+  if (wx) {
+    const windWarn = wx.wind_mph > 15;
+    const rainWarn = wx.precip_in > 0.1;
+    wxHtml = `<div class="weather-strip">
+      <span>🌡 Temp <span class="wx-val">${wx.temp_f}°F</span></span>
+      <span>💨 Wind <span class="${windWarn ? 'wx-warn' : 'wx-val'}">${wx.wind_mph} mph${windWarn ? ' ⚠' : ''}</span></span>
+      <span>🌧 Rain <span class="${rainWarn ? 'wx-warn' : 'wx-val'}">${wx.precip_in}"${rainWarn ? ' ⚠' : ''}</span></span>
+      ${(windWarn || rainWarn) ? '<span style="color:var(--amber);font-size:12px;font-weight:600;">Weather may affect passing/kicking props</span>' : ''}
+    </div>`;
+  }
+  document.getElementById('mainLayout').insertAdjacentHTML('beforebegin', wxHtml);
+}
+
+// ── filter + render player list ────────────────────────────────────────────
+function filterPos(pos, btn) {
+  posFilter = pos;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPlayerList();
+}
+
+function renderPlayerList() {
+  const list    = document.getElementById('playerList');
+  const players = (DATA.games[selGameIdx]?.players || [])
+    .filter(p => posFilter === 'ALL' || p.pos === posFilter);
+
+  if (!players.length) {
+    list.innerHTML = `<div style="padding:18px;text-align:center;color:var(--muted);font-size:13px;">No ${posFilter} players</div>`;
+    return;
+  }
+
+  list.innerHTML = players.map(p => {
+    const e   = parseFloat(p.overall_edge);
+    const cls = e > 0 ? 'edge-up' : e < 0 ? 'edge-dn' : 'edge-neu';
+    const inj = p.injury_status && p.injury_status !== 'Active' && p.injury_status !== 'Full';
+    return `<div class="player-item ${selPlayerId === p.id ? 'active' : ''}" onclick="selectPlayer('${p.id}')">
+      <div class="player-avatar">${p.initials}</div>
+      <div>
+        <div class="player-name">${p.name}${inj ? '<span class="inj-dot" title="' + p.injury_status + '"></span>' : ''}</div>
+        <div class="player-sub">${p.pos} · ${p.team}</div>
+      </div>
+      <div class="player-edge ${cls}">${p.overall_edge}%</div>
+    </div>`;
+  }).join('');
+}
+
+// ── select player ──────────────────────────────────────────────────────────
+function selectPlayer(id) {
+  selPlayerId = id;
+  renderPlayerList();
+  const player = DATA.games[selGameIdx]?.players.find(p => p.id == id);
+  if (player) renderProps(player);
+}
+
+// ── render props ───────────────────────────────────────────────────────────
+function renderProps(player) {
+  const panel = document.getElementById('propsPanel');
+  const avgs  = player.season_avgs || {};
+  const isQB  = player.pos === 'QB';
+
+  // injury banner
+  const injBanner = (player.injury_status && player.injury_status !== 'Active')
+    ? `<div class="injury-banner">⚠ ${player.name} — ${player.injury_status}${player.injury_detail ? ': ' + player.injury_detail : ''}</div>`
+    : '';
+
+  // season stat display
+  const statItems = [];
+  if (avgs.pass_yds) statItems.push(['Avg Pass Yds', avgs.pass_yds]);
+  if (avgs.pass_td)  statItems.push(['Avg Pass TDs', avgs.pass_td]);
+  if (avgs.rec_yds)  statItems.push(['Avg Rec Yds',  avgs.rec_yds]);
+  if (avgs.rec)      statItems.push(['Avg Rec',       avgs.rec]);
+  if (avgs.rush_yds) statItems.push(['Avg Rush Yds',  avgs.rush_yds]);
+  const statsHtml = statItems.slice(0, 3).map(([l,v]) =>
+    `<div><div class="hs-label">${l}</div><div class="hs-val">${v}</div></div>`).join('');
+
+  // prop cards
+  const cards = player.props.map((prop, i) => {
+    const key        = `${player.id}_${i}`;
+    const savedOver  = userOdds[key + '_over']  || '';
+    const savedUnder = userOdds[key + '_under'] || '';
+    const savedPick  = userOdds[key + '_pick']  || '';
+    const savedLine  = userOdds[key + '_line']  || prop.line;
+
+    // trend bars
+    const maxVal = Math.max(...prop.trend, 1);
+    const bars   = prop.trend.map(v => {
+      const h   = Math.round((v / maxVal) * 100);
+      const hit = v > parseFloat(savedLine);
+      return `<div class="trend-bar ${hit ? 'hit' : 'miss'}" style="height:${h}%"><span class="tip">${v}</span></div>`;
+    }).join('');
+
+    // hit rate recalculated on current line
+    const hits    = prop.trend.filter(v => v > parseFloat(savedLine)).length;
+    const hitRate = Math.round(hits / prop.trend.length * 100);
+
+    // matchup dots (derived from edge)
+    const rating = prop.edge > 6 ? 5 : prop.edge > 4 ? 4 : prop.edge > 2 ? 3 : prop.edge > 0 ? 2 : 1;
+    const dots   = Array.from({length:5}, (_,di) =>
+      `<div class="dot" style="${di < rating ? 'background:' + dotColor(rating) + ';border-color:' + dotColor(rating) : ''}"></div>`).join('');
+
+    // EV if user entered odds
+    let evHtml = '';
+    if (savedOver) {
+      const ev = computeEV(hitRate, savedOver);
+      if (ev !== null) {
+        const evColor = parseFloat(ev) > 0 ? 'var(--green)' : 'var(--red)';
+        evHtml = `<div class="ev-row"><span class="ev-label">Expected value</span><span class="ev-val" style="color:${evColor}">${parseFloat(ev) > 0 ? '+' : ''}${ev}% per $100</span></div>`;
+      }
+    }
+
+    const eColor  = edgeColor(prop.edge);
+    const isValue = prop.verdict === 'bet' && prop.edge > 4;
+    const vClass  = prop.verdict === 'bet' ? 'vp-bet' : prop.verdict === 'pass' ? 'vp-pass' : 'vp-watch';
+    const vText   = prop.verdict === 'bet' ? 'BET IT' : prop.verdict === 'pass' ? 'PASS' : 'WATCH';
+
+    return `<div class="prop-card ${isValue ? 'value-bet' : ''}" id="card_${key}">
+      ${isValue ? '<div class="vb-tag">🔥 VALUE BET</div>' : ''}
+      <div class="prop-type">${prop.type}</div>
+
+      <div class="prop-line-area">
+        <div class="prop-line" title="Click to edit line" onclick="editLine('${player.id}',${i})">${savedLine}</div>
+        <span class="line-hint">tap to edit</span>
+      </div>
+
+      <div class="odds-row">
+        <div class="odds-input-wrap">
+          <div class="odds-label">Over odds</div>
+          <input class="odds-input" type="text" placeholder="-110" value="${savedOver}"
+            onchange="saveOdds('${player.id}',${i},'over',this.value)" oninput="saveOdds('${player.id}',${i},'over',this.value)">
+        </div>
+        <div class="odds-input-wrap">
+          <div class="odds-label">Under odds</div>
+          <input class="odds-input" type="text" placeholder="-110" value="${savedUnder}"
+            onchange="saveOdds('${player.id}',${i},'under',this.value)" oninput="saveOdds('${player.id}',${i},'under',this.value)">
+        </div>
+      </div>
+
+      <div class="dir-row">
+        <button class="dir-btn over ${savedPick === 'over' ? 'picked' : ''}"
+          onclick="pickDir('${player.id}',${i},'over',this)">▲ OVER</button>
+        <button class="dir-btn under ${savedPick === 'under' ? 'picked' : ''}"
+          onclick="pickDir('${player.id}',${i},'under',this)">▼ UNDER</button>
+      </div>
+
+      <div class="trend-label-row">
+        <span>Last ${prop.trend.length} games</span>
+        <span>${hitRate}% hit rate</span>
+      </div>
+      <div class="trend-bars">${bars}</div>
+
+      <div class="matchup-row">
+        <span class="matchup-label">Matchup rating</span>
+        <div class="dots">${dots}</div>
+      </div>
+
+      <div class="edge-footer">
+        <div>
+          <div style="font-size:11px;color:var(--muted);">Model edge</div>
+          <div class="edge-val" style="color:${eColor}">${prop.edge > 0 ? '+' : ''}${prop.edge}%</div>
+          ${evHtml}
+        </div>
+        <div class="verdict-pill ${vClass}">${vText}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  panel.innerHTML = `
+    ${injBanner}
+    <div class="player-hero">
+      <div class="hero-avatar">${player.initials}</div>
+      <div>
+        <div class="hero-name">${player.name}</div>
+        <div class="hero-sub">${player.pos} · ${player.team}${player.jersey ? ' · #' + player.jersey : ''}</div>
+        <div class="hero-stats">${statsHtml}</div>
+      </div>
+    </div>
+    <div class="props-grid">${cards}</div>`;
+}
+
+// ── user interactions ──────────────────────────────────────────────────────
+function saveOdds(playerId, propIdx, side, value) {
+  userOdds[`${playerId}_${propIdx}_${side}`] = value;
+  // re-render EV without full page re-render
+  const player = DATA.games[selGameIdx]?.players.find(p => p.id == playerId);
+  if (player) renderProps(player);
+}
+
+function pickDir(playerId, propIdx, dir, btn) {
+  const key = `${playerId}_${propIdx}_pick`;
+  userOdds[key] = userOdds[key] === dir ? '' : dir;
+  const player = DATA.games[selGameIdx]?.players.find(p => p.id == playerId);
+  if (player) renderProps(player);
+}
+
+function editLine(playerId, propIdx) {
+  const player = DATA.games[selGameIdx]?.players.find(p => p.id == playerId);
+  if (!player) return;
+  const current = userOdds[`${playerId}_${propIdx}_line`] || player.props[propIdx].line;
+  const val = prompt(`Edit line for ${player.props[propIdx].type}:`, current);
+  if (val !== null && !isNaN(parseFloat(val))) {
+    userOdds[`${playerId}_${propIdx}_line`] = parseFloat(val);
+    renderProps(player);
+  }
+}
+
+// ── boot ───────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
