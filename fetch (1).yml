@@ -1,0 +1,41 @@
+name: Fetch sports data
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: 1 — Fetch raw data from ESPN
+        run: python fetch_data.py
+
+      - name: 2 — Run edge model
+        run: python calculate_edges.py
+
+      - name: 3 — Build ranked picks list
+        run: python rank_picks.py
+
+      - name: Commit results
+        run: |
+          git config user.name  "balliq-bot"
+          git config user.email "bot@balliq.org"
+          git add data.json picks.json
+          git diff --cached --quiet || git commit -m "chore: update data + picks [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+          git push
