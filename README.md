@@ -33,43 +33,7 @@ balliq/
 
 ---
 
-## Setup (one time)
 
-### 1. Push all files to your repo
-
-Make sure your repo contains:
-- `index.html`
-- `fetch_data.py`
-- `requirements.txt`
-- `.github/workflows/fetch.yml`
-
-### 2. Enable GitHub Pages
-
-- Go to your repo → **Settings** → **Pages**
-- Source: **Deploy from a branch**
-- Branch: `main` (or `master`), folder: `/ (root)`
-- Save — your site will be live at `https://balliq.org` once your domain is pointed here
-
-### 3. Enable GitHub Actions write permissions
-
-GitHub Actions needs permission to commit `data.json` back to the repo.
-
-- Go to repo → **Settings** → **Actions** → **General**
-- Scroll to **Workflow permissions**
-- Select **Read and write permissions**
-- Save
-
-### 4. Run the workflow manually (first time)
-
-- Go to repo → **Actions** tab
-- Click **Fetch sports data** on the left
-- Click **Run workflow** → **Run workflow**
-- Wait ~2 minutes — you'll see `data.json` appear in your repo
-- Refresh your site — it should now show live games and players
-
-After that it runs automatically every 6 hours.
-
----
 
 ## Using the site
 
