@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-27T20:45:51.595682+00:00",
+  "updated_at": "2026-05-28T03:11:34.854718+00:00",
   "games": [
     {
       "id": "401872656",
@@ -106,19 +106,6 @@
       "players": []
     },
     {
-      "id": "401858201",
-      "home": "STAN",
-      "away": "HAW",
-      "league": "NCAAF",
-      "date": "2026-08-29",
-      "time": "04:00 UTC",
-      "spread": "STAN -3",
-      "venue": "Stanford Stadium",
-      "status": "STATUS_SCHEDULED",
-      "weather": null,
-      "players": []
-    },
-    {
       "id": "401862693",
       "home": "UNLV",
       "away": "MEM",
@@ -171,19 +158,6 @@
       "players": []
     },
     {
-      "id": "401866408",
-      "home": "EMU",
-      "away": "SAC",
-      "league": "NCAAF",
-      "date": "2026-08-29",
-      "time": "04:00 UTC",
-      "spread": "EMU -8.5",
-      "venue": "Rynearson Stadium",
-      "status": "STATUS_SCHEDULED",
-      "weather": null,
-      "players": []
-    },
-    {
       "id": "401856766",
       "home": "TCU",
       "away": "UNC",
@@ -208,7 +182,33 @@
       "status": "STATUS_SCHEDULED",
       "weather": null,
       "players": []
+    },
+    {
+      "id": "401866408",
+      "home": "EMU",
+      "away": "SAC",
+      "league": "NCAAF",
+      "date": "2026-08-29",
+      "time": "22:30 UTC",
+      "spread": "EMU -8.5",
+      "venue": "Rynearson Stadium",
+      "status": "STATUS_SCHEDULED",
+      "weather": null,
+      "players": []
+    },
+    {
+      "id": "401858201",
+      "home": "STAN",
+      "away": "HAW",
+      "league": "NCAAF",
+      "date": "2026-08-29",
+      "time": "23:00 UTC",
+      "spread": "STAN -3",
+      "venue": "Stanford Stadium",
+      "status": "STATUS_SCHEDULED",
+      "weather": null,
+      "players": []
     }
   ],
-  "model_updated_at": "2026-05-27T20:45:53.097986+00:00"
+  "model_updated_at": "2026-05-28T03:11:38.441447+00:00"
 }
