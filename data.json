@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-28T03:11:34.854718+00:00",
+  "updated_at": "2026-05-28T10:32:31.126939+00:00",
   "games": [
     {
       "id": "401872656",
@@ -106,58 +106,6 @@
       "players": []
     },
     {
-      "id": "401862693",
-      "home": "UNLV",
-      "away": "MEM",
-      "league": "NCAAF",
-      "date": "2026-08-29",
-      "time": "04:00 UTC",
-      "spread": "UNLV -3",
-      "venue": "Allegiant Stadium",
-      "status": "STATUS_SCHEDULED",
-      "weather": null,
-      "players": []
-    },
-    {
-      "id": "401864494",
-      "home": "USC",
-      "away": "SJSU",
-      "league": "NCAAF",
-      "date": "2026-08-29",
-      "time": "04:00 UTC",
-      "spread": "USC -35.5",
-      "venue": "Los Angeles Memorial Coliseum",
-      "status": "STATUS_SCHEDULED",
-      "weather": null,
-      "players": []
-    },
-    {
-      "id": "401864570",
-      "home": "FSU",
-      "away": "NMSU",
-      "league": "NCAAF",
-      "date": "2026-08-29",
-      "time": "04:00 UTC",
-      "spread": "FSU -29.5",
-      "venue": "Doak Campbell Stadium",
-      "status": "STATUS_SCHEDULED",
-      "weather": null,
-      "players": []
-    },
-    {
-      "id": "401864577",
-      "home": "NDSU",
-      "away": "JVST",
-      "league": "NCAAF",
-      "date": "2026-08-29",
-      "time": "04:00 UTC",
-      "spread": "NDSU -10",
-      "venue": "Fargodome",
-      "status": "STATUS_SCHEDULED",
-      "weather": null,
-      "players": []
-    },
-    {
       "id": "401856766",
       "home": "TCU",
       "away": "UNC",
@@ -171,6 +119,19 @@
       "players": []
     },
     {
+      "id": "401864494",
+      "home": "USC",
+      "away": "SJSU",
+      "league": "NCAAF",
+      "date": "2026-08-29",
+      "time": "19:00 UTC",
+      "spread": "USC -35.5",
+      "venue": "Los Angeles Memorial Coliseum",
+      "status": "STATUS_SCHEDULED",
+      "weather": null,
+      "players": []
+    },
+    {
       "id": "401858202",
       "home": "UVA",
       "away": "NCSU",
@@ -179,6 +140,19 @@
       "time": "19:30 UTC",
       "spread": "UVA -3",
       "venue": "Nilton Santos Stadium",
+      "status": "STATUS_SCHEDULED",
+      "weather": null,
+      "players": []
+    },
+    {
+      "id": "401864577",
+      "home": "NDSU",
+      "away": "JVST",
+      "league": "NCAAF",
+      "date": "2026-08-29",
+      "time": "21:30 UTC",
+      "spread": "NDSU -10",
+      "venue": "Fargodome",
       "status": "STATUS_SCHEDULED",
       "weather": null,
       "players": []
@@ -208,7 +182,33 @@
       "status": "STATUS_SCHEDULED",
       "weather": null,
       "players": []
+    },
+    {
+      "id": "401864570",
+      "home": "FSU",
+      "away": "NMSU",
+      "league": "NCAAF",
+      "date": "2026-08-29",
+      "time": "23:00 UTC",
+      "spread": "FSU -29.5",
+      "venue": "Doak Campbell Stadium",
+      "status": "STATUS_SCHEDULED",
+      "weather": null,
+      "players": []
+    },
+    {
+      "id": "401862693",
+      "home": "UNLV",
+      "away": "MEM",
+      "league": "NCAAF",
+      "date": "2026-08-30",
+      "time": "02:00 UTC",
+      "spread": "UNLV -3",
+      "venue": "Allegiant Stadium",
+      "status": "STATUS_SCHEDULED",
+      "weather": null,
+      "players": []
     }
   ],
-  "model_updated_at": "2026-05-28T03:11:38.441447+00:00"
+  "model_updated_at": "2026-05-28T10:32:33.196154+00:00"
 }
