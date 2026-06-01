@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-01T18:07:06.858989+00:00",
+  "updated_at": "2026-06-01T22:06:19.097719+00:00",
   "games": [
     {
       "id": "401872656",
@@ -21,7 +21,7 @@
       "league": "NFL",
       "date": "2026-09-11",
       "time": "00:35 UTC",
-      "spread": "LAR -2.5",
+      "spread": "LAR -3",
       "venue": "Melbourne Cricket Ground",
       "status": "STATUS_SCHEDULED",
       "weather": null,
@@ -210,5 +210,5 @@
       "players": []
     }
   ],
-  "model_updated_at": "2026-06-01T18:07:12.339404+00:00"
+  "model_updated_at": "2026-06-01T22:06:22.635229+00:00"
 }
