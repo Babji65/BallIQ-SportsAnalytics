@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-03T11:28:21.632439+00:00",
+  "updated_at": "2026-06-03T17:06:48.390539+00:00",
   "games": [
     {
       "id": "401872656",
@@ -138,7 +138,7 @@
       "league": "NCAAF",
       "date": "2026-08-29",
       "time": "19:30 UTC",
-      "spread": "UVA -3",
+      "spread": "UVA -5.5",
       "venue": "Nilton Santos Stadium",
       "status": "STATUS_SCHEDULED",
       "weather": null,
@@ -210,5 +210,5 @@
       "players": []
     }
   ],
-  "model_updated_at": "2026-06-03T11:28:23.450988+00:00"
+  "model_updated_at": "2026-06-03T17:06:54.559428+00:00"
 }
