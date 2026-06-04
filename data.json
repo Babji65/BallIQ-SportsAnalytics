@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-04T15:22:10.863391+00:00",
+  "updated_at": "2026-06-04T20:37:55.631878+00:00",
   "games": [
     {
       "id": "401872656",
@@ -177,7 +177,7 @@
       "league": "NCAAF",
       "date": "2026-08-29",
       "time": "23:00 UTC",
-      "spread": "STAN -3",
+      "spread": "STAN -3.5",
       "venue": "Stanford Stadium",
       "status": "STATUS_SCHEDULED",
       "weather": null,
@@ -203,12 +203,12 @@
       "league": "NCAAF",
       "date": "2026-08-30",
       "time": "02:00 UTC",
-      "spread": "UNLV -3",
+      "spread": "UNLV -3.5",
       "venue": "Allegiant Stadium",
       "status": "STATUS_SCHEDULED",
       "weather": null,
       "players": []
     }
   ],
-  "model_updated_at": "2026-06-04T15:22:12.421240+00:00"
+  "model_updated_at": "2026-06-04T20:37:57.099066+00:00"
 }
