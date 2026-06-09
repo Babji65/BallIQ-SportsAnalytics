@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-09T15:16:27.643129+00:00",
+  "updated_at": "2026-06-09T20:43:37.057099+00:00",
   "games": [
     {
       "id": "401872656",
@@ -151,7 +151,7 @@
       "league": "NCAAF",
       "date": "2026-08-29",
       "time": "21:30 UTC",
-      "spread": "NDSU -10",
+      "spread": "NDSU -8.5",
       "venue": "Fargodome",
       "status": "STATUS_SCHEDULED",
       "weather": null,
@@ -210,5 +210,5 @@
       "players": []
     }
   ],
-  "model_updated_at": "2026-06-09T15:16:34.211422+00:00"
+  "model_updated_at": "2026-06-09T20:43:42.182277+00:00"
 }
