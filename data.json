@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-20T19:58:34.430524+00:00",
+  "updated_at": "2026-06-21T03:40:06.065534+00:00",
   "games": [
     {
       "id": "401872656",
@@ -203,12 +203,12 @@
       "league": "NCAAF",
       "date": "2026-08-30",
       "time": "02:00 UTC",
-      "spread": "UNLV -3.5",
+      "spread": "UNLV -3",
       "venue": "Allegiant Stadium",
       "status": "STATUS_SCHEDULED",
       "weather": null,
       "players": []
     }
   ],
-  "model_updated_at": "2026-06-20T19:58:41.026307+00:00"
+  "model_updated_at": "2026-06-21T03:40:12.231789+00:00"
 }
