@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23T15:13:56.978220+00:00",
+  "updated_at": "2026-06-23T20:35:17.569984+00:00",
   "games": [
     {
       "id": "401872656",
@@ -138,7 +138,7 @@
       "league": "NCAAF",
       "date": "2026-08-29",
       "time": "19:30 UTC",
-      "spread": "UVA -4.5",
+      "spread": "UVA -5.5",
       "venue": "Scott Stadium",
       "status": "STATUS_SCHEDULED",
       "weather": null,
@@ -190,7 +190,7 @@
       "league": "NCAAF",
       "date": "2026-08-29",
       "time": "23:00 UTC",
-      "spread": "FSU -29.5",
+      "spread": "FSU -30.5",
       "venue": "Doak Campbell Stadium",
       "status": "STATUS_SCHEDULED",
       "weather": null,
@@ -210,5 +210,5 @@
       "players": []
     }
   ],
-  "model_updated_at": "2026-06-23T15:13:59.111238+00:00"
+  "model_updated_at": "2026-06-23T20:35:21.277551+00:00"
 }
