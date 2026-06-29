@@ -1,0 +1,12 @@
+{
+  "Tesla": ["tesla", "elon", "ev", "electric vehicles", "spacex", "musk"],
+  "Apple": ["apple", "iphone", "tim cook", "app store"],
+  "Defense": ["lockheed", "boeing", "raytheon", "defense", "missile", "fighter jet", "military", "pentagon", "weapon"],
+  "Oil & Gas": ["oil", "gas", "exxon", "chevron", "pipeline", "drilling", "opec", "petroleum", "lng"],
+  "Semiconductors": ["chips", "chip", "semiconductor", "nvidia", "amd", "intel", "tsmc", "taiwan", "foundry"],
+  "Crypto": ["bitcoin", "crypto", "coinbase", "ethereum", "btc", "blockchain", "digital currency"],
+  "China": ["china", "chinese", "beijing", "xi jinping", "ccp", "tariff", "trade war"],
+  "Pharma": ["fda", "drug", "pharma", "pfizer", "vaccine", "medicine", "health"],
+  "Banking": ["bank", "fed", "federal reserve", "interest rate", "jpmorgan", "goldman", "wall street"],
+  "Real Estate": ["real estate", "housing", "mortgage", "construction", "tariff on lumber"]
+}
