@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trump Market Alerts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Design tokens ── */
+    :root {
+      --bg: #0a0c0f;
+      --surface: #111318;
+      --surface-2: #181c23;
+      --border: #1e242e;
+      --border-bright: #2a3241;
+      --red: #e8323c;
+      --red-dim: #7a1a1f;
+      --red-glow: rgba(232, 50, 60, 0.12);
+      --amber: #f59e0b;
+      --green: #22c55e;
+      --text: #d1d7e0;
+      --text-muted: #5a6478;
+      --text-dim: #3a4255;
+      --mono: "JetBrains Mono", monospace;
+      --sans: "Inter", sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Ticker tape ── */
+    .ticker-wrap {
+      background: var(--red);
+      overflow: hidden;
+      height: 28px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-inner {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 40s linear infinite;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #fff;
+      padding: 0 28px;
+      text-transform: uppercase;
+    }
+
+    .ticker-item::before {
+      content: "▲ ";
+      opacity: 0.7;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--red);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .logo-sub {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .live-dot::before {
+      content: "";
+      display: block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 24px 60px;
+    }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .stat {
+      background: var(--surface);
+      padding: 14px 16px;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-value.red { color: var(--red); }
+    .stat-value.amber { color: var(--amber); }
+
+    /* ── Filters ── */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 4px;
+      border: 1px solid var(--border-bright);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.04em;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--red-dim);
+      color: var(--text);
+      background: var(--red-glow);
+    }
+
+    .filter-btn.active {
+      border-color: var(--red);
+      color: var(--red);
+      background: var(--red-glow);
+    }
+
+    /* ── Alert cards ── */
+    #alerts-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .alert-card {
+      background: var(--surface);
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: start;
+      transition: background 0.15s;
+      cursor: default;
+    }
+
+    .alert-card:hover {
+      background: var(--surface-2);
+    }
+
+    .alert-card.new {
+      animation: flashIn 0.5s ease;
+    }
+
+    @keyframes flashIn {
+      0% { background: var(--red-glow); }
+      100% { background: var(--surface); }
+    }
+
+    /* Category badge */
+    .badge {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      border: 1px solid;
+      margin-top: 2px;
+    }
+
+    /* Alert body */
+    .alert-body {}
+
+    .alert-keyword {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .alert-keyword span {
+      color: var(--amber);
+    }
+
+    .alert-text {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+
+    .alert-text mark {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--amber);
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+
+    .alert-link {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+
+    .alert-link:hover { color: var(--red); }
+    .alert-link::before { content: "→ "; }
+
+    /* Time */
+    .alert-time {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      white-space: nowrap;
+      text-align: right;
+      line-height: 1.5;
+    }
+
+    /* ── Empty / loading states ── */
+    .state-box {
+      background: var(--surface);
+      padding: 60px 24px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .state-box .icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      opacity: 0.4;
+    }
+
+    .state-box p {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── Category color map ── */
+    /* Applied via JS: each category gets a hue */
+
+    /* ── Scrolltop / footer ── */
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .alert-card {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .alert-time { text-align: left; }
+      .header-meta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Ticker tape — populated by JS -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item">Loading alerts...</span>
+    <span class="ticker-item">Loading alerts...</span>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">TS</div>
+      <div>
+        <div class="logo-text">Truth Signal</div>
+        <div class="logo-sub">Market Alert Monitor</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="live-dot">Live</span>
+      <span id="last-updated">—</span>
+      <span id="next-refresh">—</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-label">Total Alerts</div>
+      <div class="stat-value" id="stat-total">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Last 24 h</div>
+      <div class="stat-value red" id="stat-today">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Top Category</div>
+      <div class="stat-value amber" id="stat-top" style="font-size:14px;padding-top:4px">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Categories Hit</div>
+      <div class="stat-value" id="stat-cats">—</div>
+    </div>
+  </div>
+
+  <!-- Category filters -->
+  <div class="controls">
+    <span class="filter-label">Filter</span>
+    <button class="filter-btn active" data-cat="all">All</button>
+    <!-- more buttons injected by JS -->
+  </div>
+
+  <!-- Alert list -->
+  <div id="alerts-container">
+    <div class="state-box">
+      <div class="icon">⏳</div>
+      <p>Loading alerts...</p>
+    </div>
+  </div>
+
+  <footer id="footer">Truth Signal · auto-refreshes every 60 s · data from GitHub</footer>
+
+</main>
+
+<script>
+  // ── Config ──────────────────────────────────────────────────────────────
+  const REFRESH_INTERVAL_MS = 60_000;
+
+  // One colour per category (border + text for badge)
+  const CATEGORY_COLORS = {
+    "Tesla":         { border: "#3b82f6", text: "#60a5fa" },
+    "Apple":         { border: "#a3a3a3", text: "#d4d4d4" },
+    "Defense":       { border: "#6366f1", text: "#818cf8" },
+    "Oil & Gas":     { border: "#f59e0b", text: "#fbbf24" },
+    "Semiconductors":{ border: "#22d3ee", text: "#67e8f9" },
+    "Crypto":        { border: "#f97316", text: "#fb923c" },
+    "China":         { border: "#e8323c", text: "#f87171" },
+    "Pharma":        { border: "#10b981", text: "#34d399" },
+    "Banking":       { border: "#8b5cf6", text: "#a78bfa" },
+    "Real Estate":   { border: "#84cc16", text: "#a3e635" },
+  };
+
+  function colorFor(cat) {
+    return CATEGORY_COLORS[cat] || { border: "#5a6478", text: "#9aa3b0" };
+  }
+
+  // ── State ────────────────────────────────────────────────────────────────
+  let allAlerts = [];
+  let activeFilter = "all";
+  let knownIds = new Set();
+
+  // ── Fetch ────────────────────────────────────────────────────────────────
+  async function loadAlerts() {
+    try {
+      const res = await fetch(`alerts.json?v=${Date.now()}`);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+
+      const newOnes = data.filter(a => !knownIds.has(a.post_id));
+      newOnes.forEach(a => knownIds.add(a.post_id));
+
+      allAlerts = data;
+      render(newOnes.map(a => a.post_id));
+      updateStats();
+      updateTicker();
+      updateFilters();
+      document.getElementById("last-updated").textContent =
+        "Updated " + new Date().toLocaleTimeString();
+    } catch (err) {
+      console.error("Failed to load alerts:", err);
+    }
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────
+  function render(newIds = []) {
+    const container = document.getElementById("alerts-container");
+    const filtered = activeFilter === "all"
+      ? allAlerts
+      : allAlerts.filter(a => a.category === activeFilter);
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="state-box">
+          <div class="icon">📡</div>
+          <p>No alerts yet. The bot is watching.</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(alert => {
+      const c = colorFor(alert.category);
+      const isNew = newIds.includes(alert.post_id);
+      const postTime = alert.post_created_at
+        ? fmtTime(alert.post_created_at) : "";
+      const alertTime = alert.alert_created_at
+        ? fmtTime(alert.alert_created_at) : "";
+
+      const highlightedText = highlight(escHtml(truncate(alert.text, 320)), alert.matched_word);
+
+      return `
+      <div class="alert-card${isNew ? " new" : ""}" data-id="${escHtml(alert.post_id)}">
+        <div>
+          <div class="badge" style="border-color:${c.border};color:${c.text}">
+            ${escHtml(alert.category)}
+          </div>
+        </div>
+        <div class="alert-body">
+          <div class="alert-keyword">Triggered by <span>"${escHtml(alert.matched_word)}"</span></div>
+          <div class="alert-text">${highlightedText}</div>
+          <a class="alert-link" href="${escHtml(alert.url)}" target="_blank" rel="noopener">
+            View on Truth Social
+          </a>
+        </div>
+        <div class="alert-time">
+          ${postTime ? `<div>Post: ${postTime}</div>` : ""}
+          ${alertTime ? `<div>Alert: ${alertTime}</div>` : ""}
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  // ── Stats ────────────────────────────────────────────────────────────────
+  function updateStats() {
+    document.getElementById("stat-total").textContent = allAlerts.length;
+
+    const cutoff = Date.now() - 86_400_000;
+    const today = allAlerts.filter(a => new Date(a.alert_created_at).getTime() > cutoff);
+    document.getElementById("stat-today").textContent = today.length;
+
+    const catCounts = {};
+    allAlerts.forEach(a => { catCounts[a.category] = (catCounts[a.category] || 0) + 1; });
+    const cats = Object.keys(catCounts);
+    document.getElementById("stat-cats").textContent = cats.length;
+
+    const top = cats.sort((a, b) => catCounts[b] - catCounts[a])[0];
+    document.getElementById("stat-top").textContent = top || "—";
+  }
+
+  // ── Ticker ───────────────────────────────────────────────────────────────
+  function updateTicker() {
+    if (allAlerts.length === 0) return;
+    const recent = allAlerts.slice(0, 20);
+    const items = recent.map(a =>
+      `<span class="ticker-item">${escHtml(a.category)}: ${escHtml(truncate(a.matched_word + " — " + a.text, 80))}</span>`
+    ).join("");
+    // Duplicate for seamless loop
+    document.getElementById("ticker").innerHTML = items + items;
+  }
+
+  // ── Filters ──────────────────────────────────────────────────────────────
+  function updateFilters() {
+    const cats = [...new Set(allAlerts.map(a => a.category))].sort();
+    const bar = document.querySelector(".controls");
+
+    // Remove old category buttons (keep "All")
+    bar.querySelectorAll("[data-cat]:not([data-cat='all'])").forEach(b => b.remove());
+
+    cats.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.className = "filter-btn" + (activeFilter === cat ? " active" : "");
+      btn.dataset.cat = cat;
+      btn.textContent = cat;
+      btn.addEventListener("click", () => setFilter(cat));
+      bar.appendChild(btn);
+    });
+  }
+
+  function setFilter(cat) {
+    activeFilter = cat;
+    document.querySelectorAll(".filter-btn").forEach(b => {
+      b.classList.toggle("active", b.dataset.cat === cat);
+    });
+    render();
+  }
+
+  document.querySelector("[data-cat='all']").addEventListener("click", () => setFilter("all"));
+
+  // ── Countdown ────────────────────────────────────────────────────────────
+  let secondsLeft = REFRESH_INTERVAL_MS / 1000;
+  setInterval(() => {
+    secondsLeft = Math.max(0, secondsLeft - 1);
+    document.getElementById("next-refresh").textContent =
+      `Refresh in ${secondsLeft}s`;
+    if (secondsLeft === 0) {
+      secondsLeft = REFRESH_INTERVAL_MS / 1000;
+      loadAlerts();
+    }
+  }, 1000);
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function escHtml(str = "") {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function truncate(str = "", max = 300) {
+    return str.length > max ? str.slice(0, max).trimEnd() + "…" : str;
+  }
+
+  function highlight(html, word = "") {
+    if (!word) return html;
+    const safe = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return html.replace(new RegExp(`(${safe})`, "gi"), "<mark>$1</mark>");
+  }
+
+  function fmtTime(iso) {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleString(undefined, {
+        month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      });
+    } catch { return ""; }
+  }
+
+  // ── Boot ─────────────────────────────────────────────────────────────────
+  loadAlerts();
+</script>
+</body>
+</html>
