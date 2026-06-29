@@ -29,7 +29,6 @@ jobs:
       - name: Run bot
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-          TEST_MODE: "true"
         run: python bot.py
 
       - name: Commit updated data
