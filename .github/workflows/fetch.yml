@@ -2,7 +2,7 @@ name: Fetch sports data
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: 
   workflow_dispatch:
 
 jobs:
