@@ -48,37 +48,16 @@ def save_json(path, data):
 # Truth Social scraper
 # ---------------------------------------------------------------------------
 
-"""def fetch_latest_posts():
-    """
-    Fetches recent posts from Trump's Truth Social account via the public
-    RSS feed that Truth Social exposes at /@realDonaldTrump.rss
-
-    Falls back to scraping the HTML profile page if RSS is unavailable.
-    Returns a list of dicts: {id, text, url, created_at}
-    """
-    posts = _fetch_via_rss()
-    if posts:
-        print(f"Fetched {len(posts)} posts via RSS.")
-        return posts
-
-    print("RSS fetch failed — trying HTML scrape fallback.")
-    posts = _fetch_via_html()
-    if posts:
-        print(f"Fetched {len(posts)} posts via HTML scrape.")
-        return posts
-
-    print("Both fetch methods failed. Returning empty list.")
-    return [] 
-"""
 def fetch_latest_posts():
-    return [
-        {
-            "id": "test-trump-post-001",
-            "text": "This is a test post about China, tariffs, Tesla, oil, and semiconductors.",
-            "url": "https://truthsocial.com/@realDonaldTrump",
-            "created_at": datetime.now(timezone.utc).isoformat(),
-        }
-    ]
+   return [
+    {
+        "id": "test-trump-post-001",
+        "text": "This is a test post about China, tariffs, Tesla, oil, and semiconductors.",
+        "url": "https://truthsocial.com/@realDonaldTrump",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+
     
 def _fetch_via_rss():
     """Primary method: parse the public RSS/Atom feed."""
