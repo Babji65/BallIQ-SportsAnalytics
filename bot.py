@@ -57,7 +57,7 @@ def fetch_latest_posts():
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-
+   ]
     
 def _fetch_via_rss():
     """Primary method: parse the public RSS/Atom feed."""
