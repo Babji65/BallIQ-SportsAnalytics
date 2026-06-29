@@ -48,7 +48,7 @@ def save_json(path, data):
 # Truth Social scraper
 # ---------------------------------------------------------------------------
 
-def fetch_latest_posts():
+"""def fetch_latest_posts():
     """
     Fetches recent posts from Trump's Truth Social account via the public
     RSS feed that Truth Social exposes at /@realDonaldTrump.rss
@@ -68,9 +68,18 @@ def fetch_latest_posts():
         return posts
 
     print("Both fetch methods failed. Returning empty list.")
-    return []
-
-
+    return [] 
+"""
+def fetch_latest_posts():
+    return [
+        {
+            "id": "test-trump-post-001",
+            "text": "This is a test post about China, tariffs, Tesla, oil, and semiconductors.",
+            "url": "https://truthsocial.com/@realDonaldTrump",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+    ]
+    
 def _fetch_via_rss():
     """Primary method: parse the public RSS/Atom feed."""
     try:
