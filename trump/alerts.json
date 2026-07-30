@@ -1,5 +1,23 @@
 [
   {
+    "post_id": "117006290013696288",
+    "category": "Social Media / Media",
+    "matched_word": "djt",
+    "text": "Thank you Abe! President DJT",
+    "url": "https://truthsocial.com/@realDonaldTrump/117006290013696288",
+    "post_created_at": "2026-07-30T01:18:18.306Z",
+    "alert_created_at": "2026-07-30T03:47:34.823059+00:00"
+  },
+  {
+    "post_id": "117006290013696288",
+    "category": "Company Praise / Investment Signal",
+    "matched_word": "thank you",
+    "text": "Thank you Abe! President DJT",
+    "url": "https://truthsocial.com/@realDonaldTrump/117006290013696288",
+    "post_created_at": "2026-07-30T01:18:18.306Z",
+    "alert_created_at": "2026-07-30T03:47:34.823041+00:00"
+  },
+  {
     "post_id": "117005562901056692",
     "category": "Retail / Consumer",
     "matched_word": "cost",
@@ -1780,23 +1798,5 @@
     "url": "https://truthsocial.com/@realDonaldTrump/116919780125305335",
     "post_created_at": "2026-07-14T18:37:42.161Z",
     "alert_created_at": "2026-07-14T20:01:44.825239+00:00"
-  },
-  {
-    "post_id": "116918821787185529",
-    "category": "Autos / Industrial Manufacturing",
-    "matched_word": "trucks",
-    "text": "Trump visits Mack Trucks plant in battleground Pennsylvania district to tout economic agenda as midterms loom: https://www.foxbusiness.com/politics/trump-visits-mack-trucks-plant-battleground-pennsylvania-district-to-tout-economic-agenda-midterms-loom",
-    "url": "https://truthsocial.com/@realDonaldTrump/116918821787185529",
-    "post_created_at": "2026-07-14T14:33:59.085Z",
-    "alert_created_at": "2026-07-14T15:43:26.850171+00:00"
-  },
-  {
-    "post_id": "116918822625387784",
-    "category": "Market Moving Words",
-    "matched_word": "deal",
-    "text": "Trump claims military victory, points to economic progress in the wake of first-stage Iran deal: https://www.washingtontimes.com/news/2026/jun/23/trump-claims-military-victory-points-economic-progress-wake-first/",
-    "url": "https://truthsocial.com/@realDonaldTrump/116918822625387784",
-    "post_created_at": "2026-07-14T14:34:11.873Z",
-    "alert_created_at": "2026-07-14T15:43:26.759635+00:00"
   }
 ]
